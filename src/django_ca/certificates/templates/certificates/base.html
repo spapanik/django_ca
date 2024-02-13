@@ -1,0 +1,22 @@
+{% extends "lib/base.html" %}
+{% load static %}
+
+{% block main_body %}
+    <div class="inner cover text-center">
+        <h1 class="cover-heading">Servers</h1>
+
+        <div class="mb-3">
+            <button onclick="window.location.href='{% url 'certificates:home' %}'"
+                    class="btn btn-info">
+                Servers Home
+            </button>
+            <button onclick="window.location.href='{% url 'certificates:server' %}'"
+                    class="btn btn-info">
+                Get a server certificate
+            </button>
+
+        </div>
+
+        {% block certificates_extra %}{% endblock %}
+    </div>
+{% endblock %}
