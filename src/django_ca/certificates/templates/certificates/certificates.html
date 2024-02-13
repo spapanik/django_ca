@@ -1,0 +1,51 @@
+{% extends "certificates/base.html" %}
+
+{% block certificates_extra %}
+    <button type="button"
+            class="btn btn-primary"
+            onclick="window.location.href='{% url 'certificates:certificate' obj_id=ca_cert_id field="certificate" filename="django_ca.crt" %}'"
+            download>
+        Download CA certificate
+    </button>
+
+    <table class="table table-striped table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Key</th>
+            <th scope="col">Certificate</th>
+            {% for index in range %}
+                <th scope="col">Alternative Name #{{index}}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+            {% for server in servers %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        <button type="button"
+                                class="btn btn-primary"
+                                onclick="window.location.href='{% url 'certificates:key' obj_id=server.key_id field="private_key" filename="server.key" %}'"
+                                download>
+                            Download certificate
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-primary"
+                                onclick="window.location.href='{% url 'certificates:certificate' obj_id=server.cert_id field="certificate" filename="server.crt" %}'"
+                                download>
+                            Download key
+                        </button>
+                    </td>
+                    {% for name in server.names %}
+                        <td>
+                            {{ name }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}
