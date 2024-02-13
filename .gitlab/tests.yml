@@ -1,0 +1,40 @@
+image: spapanik/django-api:1.3.0
+
+services:
+  - postgres
+
+variables:
+  POSTGRES_USER: brian
+  POSTGRES_DB: brian
+  POSTGRES_PASSWORD: M6hzeBBQxdNi4eYVY6GD
+  POSTGRES_HOST_AUTH_METHOD: trust
+  PGDATA: /var/lib/pgsql/data
+
+stages:
+  - lint
+  - tests
+
+before_script:
+  - git config --global --add safe.directory "*"
+
+run-lint:
+  stage: lint
+  only:
+    - main
+    - merge_requests
+  script:
+    - python -m venv ~/.venv
+    - . ~/.venv/bin/activate
+    - yam install_py
+    - yam lint
+
+run-tests:
+  stage: tests
+  only:
+    - main
+    - merge_requests
+  script:
+    - python -m venv ~/.venv
+    - . ~/.venv/bin/activate
+    - yam install
+    - yam tests
